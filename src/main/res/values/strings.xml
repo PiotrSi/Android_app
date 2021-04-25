@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">My Application2 (Main)</string>
+    <string name="app_name2">My Application2 (Sec)</string>
+    <string name="opis_opcji">Clear all data</string>
+    <string name="manufacturer">Manufacturer</string>
+    <string name="model">Model</string>
+    <string name="version">Android version</string>
+    <string name="web">Web site</string>
+</resources>
