@@ -100,7 +100,7 @@
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/WebSite"
+            android:id="@+id/webSite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dip"
@@ -108,14 +108,14 @@
             android:text="Web Site" />
 
         <Button
-            android:id="@+id/Cancel"
+            android:id="@+id/cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dip"
             android:text="Cancel" />
 
         <Button
-            android:id="@+id/Save"
+            android:id="@+id/save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dip"

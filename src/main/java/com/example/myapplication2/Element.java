@@ -14,27 +14,44 @@ public class Element {
     private long Kolumna;
 
     @NonNull
-    @ColumnInfo(name = "nazwa_kolumny2")
-    private String Kolumna2;
+    @ColumnInfo(name = "manufacturer")
+    private String manufacturer;
 
-    public Element(@NonNull String Kolumna2) {
-        this.Kolumna2 = Kolumna2;
+    @NonNull
+    @ColumnInfo(name = "model")
+    private String model;
+
+
+    public Element(@NonNull String manufacturer,@NonNull String model) {
+        this.manufacturer = manufacturer;
+        this.model = model;
     }
+
+
 
     public long getKolumna() {
         return Kolumna;
     }
 
-    public void setKolumna(long mKolumna) {
-        this.Kolumna = mKolumna;
+    public void setKolumna(long kolumna) {
+        Kolumna = kolumna;
     }
 
     @NonNull
-    public String getKolumna2() {
-        return Kolumna2;
+    public String getManufacturer() {
+        return manufacturer;
+    }
+    @NonNull
+    public String getModel() {
+        return model;
     }
 
-    public void setKolumna2(@NonNull String mKolumna2) {
-        this.Kolumna2 = mKolumna2;
+
+    public void setModel(@NonNull String model) {
+        this.model = model;
     }
+    public void setManufacturer(@NonNull String manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
 }

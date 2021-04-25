@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -44,12 +45,14 @@ public class MainActivity extends AppCompatActivity {
             mAdapter.setElementList(elements);
         });
 
-
         button.setOnClickListener(new View.OnClickListener()
                                   {
                                       @Override
                                       public void onClick(View v)
                                       {
+                                          //Element pierwszy = new Element("wartosc");
+                                          //mElementViewModel.insertValue(pierwszy);
+
                                           Intent zamiar = new Intent(MainActivity.this,SecActivity.class);
 
                                           //pobrane warości
@@ -59,12 +62,14 @@ public class MainActivity extends AppCompatActivity {
 
                                           startActivityForResult(zamiar,REQUEST_CODE);
 
-                                          //Element pierwszy = new Element("wartosc");
-                                          //mElementViewModel.insertValue(pierwszy);
                                       }
                                   }
         );
     }
+
+
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -97,5 +102,21 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK)
+        {
+            Bundle pakunek = data.getExtras();
+            String manufacturer = pakunek.getString("manufacturer");
+            String model = pakunek.getString("model");
+            String version = pakunek.getString("version");
+            String web = pakunek.getString("web");
+
+            Element element = new Element(manufacturer,model);
+            mElementViewModel.insertValue(element);
+
+        }
+    }
 
 }

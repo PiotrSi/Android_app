@@ -32,8 +32,12 @@ public class ElementRepository {
             });
     }
 
-    void insert(Element element){
-        mElementDao.insert(element);
+    void insert( Element element){
+        ElementRoomDatabase.databaseWriteExecutor.execute(()->{
+            //dodanie
+            mElementDao.insert(element);
+        });
+
 
     }
 

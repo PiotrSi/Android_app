@@ -13,7 +13,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Element.class}, version = 1,exportSchema = false)
+@Database(entities = {Element.class}, version = 2,exportSchema = false)
 public abstract class ElementRoomDatabase extends RoomDatabase {
 
     //zwraca DAO
@@ -51,7 +51,7 @@ public abstract class ElementRoomDatabase extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-
+//            Element pierwszy = new Element("wartosc");
             //wykonanie operacji na osobnym wątku
             databaseWriteExecutor.execute(()->{
                     ElementDao dao = INSTANCE.elementDao();
@@ -60,6 +60,7 @@ public abstract class ElementRoomDatabase extends RoomDatabase {
                     //tutaj możemy określić początkową zawartość bazy danych
                     //Element pierwszy = new Element("wartosc");
                     //ElementViewModel.insertValue(pierwszy);
+//                    dao.insert(pierwszy);
                     }
                     );
         }

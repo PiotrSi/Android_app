@@ -21,7 +21,7 @@ public class ElementListAdapter extends RecyclerView.Adapter<ElementListAdapter.
         mLayoutInFlater = LayoutInflater.from(context);
         this.mElementList = null;
     }
-    Element pierwszy = new Element("wartosc");
+
 
     @NonNull
     @Override
@@ -37,7 +37,9 @@ public class ElementListAdapter extends RecyclerView.Adapter<ElementListAdapter.
         //holder.label1.setTag(mElementList.get(position));
         Element value = mElementList.get(position);
         holder.label1.setTag(position);
-        holder.label1.setText(value.getKolumna2());
+        holder.label1.setText(value.getManufacturer());
+        holder.label2.setTag(position);
+        holder.label2.setText(value.getModel());
     }
 
     @Override
