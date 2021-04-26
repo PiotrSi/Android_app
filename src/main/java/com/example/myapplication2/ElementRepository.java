@@ -37,8 +37,12 @@ public class ElementRepository {
             //dodanie
             mElementDao.insert(element);
         });
-
-
     }
 
+    void delete(Element element){
+        ElementRoomDatabase.databaseWriteExecutor.execute(()->{
+            //dodanie
+            mElementDao.delete(element);
+        });
+    }
 }

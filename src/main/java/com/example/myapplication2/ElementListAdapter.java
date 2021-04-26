@@ -20,6 +20,12 @@ public class ElementListAdapter extends RecyclerView.Adapter<ElementListAdapter.
     public ElementListAdapter(Context context){
         mLayoutInFlater = LayoutInflater.from(context);
         this.mElementList = null;
+        try {
+            mOnItemClickListener = (OnItemClickListener)context.getApplicationContext();
+            //należy zapewnić obsługę wyjątku ClassCastExeptation
+        }catch(ClassCastException e){
+
+        }
     }
 
 
@@ -34,6 +40,7 @@ public class ElementListAdapter extends RecyclerView.Adapter<ElementListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ElementViewHolder holder, int position) {
+       // holder.
         //holder.label1.setTag(mElementList.get(position));
         Element value = mElementList.get(position);
         holder.label1.setTag(position);
@@ -54,7 +61,12 @@ public class ElementListAdapter extends RecyclerView.Adapter<ElementListAdapter.
         notifyDataSetChanged();
     }
 
-    public class ElementViewHolder extends RecyclerView.ViewHolder  {
+    public Element getElementAt(int position){
+        return mElementList.get(position);
+    }
+
+
+    public class ElementViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             TextView label1;
             TextView label2;
             View glowny;
@@ -63,8 +75,30 @@ public class ElementListAdapter extends RecyclerView.Adapter<ElementListAdapter.
             this.glowny = itemView;
             label1 = glowny.findViewById(R.id.textView1);
             label2 = glowny.findViewById(R.id.textView2);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+
         }
     }
+
+//    public void remove(RecyclerView.ViewHolder viewHolder){
+//        mElementList.remove(viewHolder.getAdapterPosition());
+//    }
+
+
+
+    //referencja do Listenera(informuje o kliknięciu wiersza)
+    private OnItemClickListener mOnItemClickListener;
+
+    //informuje jaki element wybrano
+    public interface OnItemClickListener {
+        void OnItemClickListener(Element element);
+    }
+
+
 }
 
 

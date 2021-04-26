@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements  ElementListAdapter.OnItemClickListener{
     private ElementViewModel mElementViewModel;;
     private ElementListAdapter mAdapter;
     FloatingActionButton button;
@@ -29,44 +29,71 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        button= findViewById(R.id.fabMain);
+        button = findViewById(R.id.fabMain);
 
         //ustawienie adaptera na liście, ustawienie Layutu elementów listy
         RecyclerView recyclerView = findViewById(R.id.activity_main);
         mAdapter = new ElementListAdapter(this);
         recyclerView.setAdapter(mAdapter);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         //odczytanie modelu widoku z dostawcy
         mElementViewModel = new ViewModelProvider(this).get(ElementViewModel.class);
 
         //gdy zmienią się dane w obiekcie live data w mdelu widoku zostanie
         //wywołana metodą ustwaiająca zmienioną listę elementów w adapterze
-        mElementViewModel.getAllElements().observe(this,elements -> {
+        mElementViewModel.getAllElements().observe(this, elements -> {
             mAdapter.setElementList(elements);
         });
 
-        button.setOnClickListener(new View.OnClickListener()
-                                  {
+        button.setOnClickListener(new View.OnClickListener() {
                                       @Override
-                                      public void onClick(View v)
-                                      {
+                                      public void onClick(View v) {
                                           //Element pierwszy = new Element("wartosc");
                                           //mElementViewModel.insertValue(pierwszy);
 
-                                          Intent zamiar = new Intent(MainActivity.this,SecActivity.class);
+                                          Intent zamiar = new Intent(MainActivity.this, SecActivity.class);
 
                                           //pobrane warości
 
                                           //odanie do intent'u
                                           //zamirt.putExtra(NAZWA,);
 
-                                          startActivityForResult(zamiar,REQUEST_CODE);
+                                          startActivityForResult(zamiar, REQUEST_CODE);
 
                                       }
                                   }
         );
-    }
 
+        //ItemTouchHelper itemTouchHelper =
+                new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                    @Override
+                    public boolean onMove(@NonNull RecyclerView recyclerView,
+                                          @NonNull RecyclerView.ViewHolder viewHolder,
+                                          @NonNull RecyclerView.ViewHolder target) {
+                        return false;
+                    }
+
+                    @Override
+                    public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                        mElementViewModel.delete(mAdapter.getElementAt(viewHolder.getAdapterPosition()));
+                        //mElementViewModel.delete((Element) viewHolder.itemView.getTag());
+
+                        mAdapter.notifyDataSetChanged();
+                    }
+
+                }).attachToRecyclerView(recyclerView);
+
+
+
+    }
+    @Override
+    public void OnItemClickListener(Element element){
+        Intent zamiar = new Intent(MainActivity.this, SecActivity.class);
+
+        startActivityForResult(zamiar, REQUEST_CODE);
+    }
 
 
 
@@ -84,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(id == R.id.pierwsza_opcja){
             //obsługa opcji
-
+            mElementViewModel.deleteAll();
             //zwrócenie true = zakończenie obsługi opcji
             return true;
         }
@@ -118,5 +145,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
 
 }

@@ -29,8 +29,11 @@ public class ElementViewModel extends AndroidViewModel {
     }
 
     public void insertValue(Element element){
-        //skasowanie wszystkich elementów z repozytorium
         mRepository.insert(element);
+    }
+
+    public void delete(Element element){
+        mRepository.delete(element);
     }
 
 }
