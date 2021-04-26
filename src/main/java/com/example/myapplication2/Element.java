@@ -21,13 +21,28 @@ public class Element {
     @ColumnInfo(name = "model")
     private String model;
 
+    @NonNull
+    @ColumnInfo(name = "version")
+    private String version;
 
-    public Element(@NonNull String manufacturer,@NonNull String model) {
+    @NonNull
+    @ColumnInfo(name = "web")
+    private String web;
+
+    public Element(@NonNull String manufacturer,@NonNull String model,@NonNull String version,@NonNull String web) {
         this.manufacturer = manufacturer;
         this.model = model;
+        this.version = version;
+        this.web = web;
     }
-
-
+//
+//    public Element(@NonNull long Kolumna,@NonNull String manufacturer,@NonNull String model,@NonNull String version,@NonNull String web) {
+//        this.Kolumna = Kolumna;
+//        this.manufacturer = manufacturer;
+//        this.model = model;
+//        this.version = version;
+//        this.web = web;
+//    }
 
     public long getKolumna() {
         return Kolumna;
@@ -45,6 +60,14 @@ public class Element {
     public String getModel() {
         return model;
     }
+    @NonNull
+    public String getVersion() {
+        return version;
+    }
+    @NonNull
+    public String getWeb() {
+        return web;
+    }
 
 
     public void setModel(@NonNull String model) {
@@ -52,6 +75,12 @@ public class Element {
     }
     public void setManufacturer(@NonNull String manufacturer) {
         this.manufacturer = manufacturer;
+    }
+    public void setVersion(@NonNull String version) {
+        this.version = version;
+    }
+    public void setWeb(@NonNull String web) {
+        this.web = web;
     }
 
 }

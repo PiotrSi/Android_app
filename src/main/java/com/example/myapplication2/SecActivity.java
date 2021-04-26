@@ -1,7 +1,9 @@
 package com.example.myapplication2;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -17,7 +19,8 @@ public class SecActivity extends AppCompatActivity {
     TextView save;
     TextView cancel;
     TextView webSite;
-
+    Long id;
+    boolean czyEdit=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,25 +33,45 @@ public class SecActivity extends AppCompatActivity {
         cancel = findViewById(R.id.cancel);
         webSite = findViewById(R.id.webSite);
 
+        Intent zamiar = getIntent();
+        if(zamiar.hasExtra("manufacturer")){
+            setTitle("Edit");
+            czyEdit = true;
+            Bundle pakunek= getIntent().getExtras();
+            id =pakunek.getLong("id");
+            manufacturer.setText(zamiar.getStringExtra("manufacturer"));
+            model.setText(zamiar.getStringExtra("model"));
+            version.setText(zamiar.getStringExtra("version"));
+            web.setText(zamiar.getStringExtra("web"));
+            save.setText("UPDDATE");
+        }else{
+            setTitle("Save");
+        }
+
         save.setOnClickListener(new View.OnClickListener()
                                   {
                                       @Override
                                       public void onClick(View v)
                                       {
-                                          Intent zamiar = new Intent();
-                                          Bundle pakunek = new Bundle();
+                                          if(waliduj()) {
+                                              Intent zamiar = new Intent();
+                                              //pobrane warości
+                                              zamiar.putExtra("manufacturer", manufacturer.getText().toString());
+                                              zamiar.putExtra("model", model.getText().toString());
+                                              zamiar.putExtra("version", version.getText().toString());
+                                              zamiar.putExtra("web", web.getText().toString());
+                                              if (czyEdit) {
+                                                  Bundle pakunek = new Bundle();
+                                                  pakunek.putLong("id", id);
+                                                  zamiar.putExtras(pakunek);
+                                                  setResult(RESULT_OK, zamiar);
+                                              } else {
+                                                  setResult(RESULT_OK, zamiar);
+                                              }
+                                              finish();
+                                          }else{
 
-                                          //pobrane warości
-                                          pakunek.putString("manufacturer",manufacturer.getText().toString());
-                                          pakunek.putString("model",model.getText().toString());
-                                          pakunek.putString("version",version.getText().toString());
-                                          //pakunek.putString("web",web.getText().toString());
-
-                                          //odanie do intent'u
-                                          zamiar.putExtras(pakunek);
-
-                                          setResult(RESULT_OK,zamiar);
-                                          finish();
+                                          }
                                       }
                                   }
         );
@@ -67,7 +90,14 @@ public class SecActivity extends AppCompatActivity {
                                       @Override
                                       public void onClick(View v)
                                       {
-                                          // dalsza cześć lab
+                                          String adres = web.getText().toString();
+                                          if(!adres.isEmpty()){
+                                              if(!adres.startsWith("http://")){
+                                                  adres="http://"+adres;
+                                              }
+                                              Intent przegladarka = new Intent("android.intent.action.VIEW", Uri.parse(adres));
+                                              startActivity(przegladarka);
+                                          }
                                       }
                                   }
         );
@@ -87,6 +117,20 @@ public class SecActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
-
+    private boolean waliduj(){
+        String manufa =  manufacturer.getText().toString();
+        String mode = model.getText().toString();
+        String vers = version.getText().toString();
+        String webb = web.getText().toString();
+        if(!(manufa.length() > 0))
+        manufacturer.setError(getString(R.string.manufacturerErr));
+        if(!(model.length() > 0))
+            model.setError(getString(R.string.modelErr));
+        if(!(version.length() > 0))
+            version.setError(getString(R.string.versionErr));
+        if(!(web.length() > 0))
+            web.setError(getString(R.string.webErr));
+        return (manufa.length() > 0 && mode.length() > 0 && vers.length() > 0 && webb.length() > 0);
+    }
 
 }

@@ -5,5 +5,9 @@
     <string name="manufacturer">Manufacturer</string>
     <string name="model">Model</string>
     <string name="version">Android version</string>
-    <string name="web">Web site</string>
+    <string name="web">Web Site</string>
+    <string name="manufacturerErr">Podaj manufacturer</string>
+    <string name="modelErr">Podaj model</string>
+    <string name="versionErr">Podaj version</string>
+    <string name="webErr">Podaj web</string>
 </resources>

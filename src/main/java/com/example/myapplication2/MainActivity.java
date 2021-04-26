@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements  ElementListAdapt
     private ElementListAdapter mAdapter;
     FloatingActionButton button;
     private static final int REQUEST_CODE = 1;
+    private static final int REQUEST_CODE2 = 2;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements  ElementListAdapt
                                   }
         );
 
-        //ItemTouchHelper itemTouchHelper =
+
                 new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
                     @Override
                     public boolean onMove(@NonNull RecyclerView recyclerView,
@@ -88,12 +89,7 @@ public class MainActivity extends AppCompatActivity implements  ElementListAdapt
 
 
     }
-    @Override
-    public void OnItemClickListener(Element element){
-        Intent zamiar = new Intent(MainActivity.this, SecActivity.class);
 
-        startActivityForResult(zamiar, REQUEST_CODE);
-    }
 
 
 
@@ -134,17 +130,40 @@ public class MainActivity extends AppCompatActivity implements  ElementListAdapt
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_CODE && resultCode == RESULT_OK)
         {
-            Bundle pakunek = data.getExtras();
-            String manufacturer = pakunek.getString("manufacturer");
-            String model = pakunek.getString("model");
-            String version = pakunek.getString("version");
-            String web = pakunek.getString("web");
-
-            Element element = new Element(manufacturer,model);
+            String manufacturer = data.getStringExtra("manufacturer");
+            String model = data.getStringExtra("model");
+            String version = data.getStringExtra("version");
+            String web = data.getStringExtra("web");
+            Element element = new Element(manufacturer,model,version,web);
             mElementViewModel.insertValue(element);
 
+        }else if(requestCode == REQUEST_CODE2 && resultCode == RESULT_OK)
+        {
+            Bundle pakunek = data.getExtras();
+            long id = pakunek.getLong("id");
+            String manufacturer = data.getStringExtra("manufacturer");
+            String model = data.getStringExtra("model");
+            String version = data.getStringExtra("version");
+            String web = data.getStringExtra("web");
+            Element element = new Element(manufacturer,model,version,web);
+            element.setKolumna(id);
+            mElementViewModel.update(element);
         }
+
     }
 
 
+    @Override
+    public void onItemClickListener(Element element) {
+        Intent zamiar = new Intent(MainActivity.this, SecActivity.class);
+        Bundle pakunek = new Bundle();
+        pakunek.putLong("id",element.getKolumna());
+        //zamiar.putExtra("id",element.getKolumna());
+        zamiar.putExtra("manufacturer",element.getManufacturer());
+        zamiar.putExtra("model",element.getModel());
+        zamiar.putExtra("version",element.getVersion());
+        zamiar.putExtra("web",element.getWeb());
+        zamiar.putExtras(pakunek);
+        startActivityForResult(zamiar, REQUEST_CODE2);
+    }
 }

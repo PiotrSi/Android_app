@@ -36,4 +36,8 @@ public class ElementViewModel extends AndroidViewModel {
         mRepository.delete(element);
     }
 
+    public void update(Element element){
+        mRepository.update(element);
+    }
+
 }

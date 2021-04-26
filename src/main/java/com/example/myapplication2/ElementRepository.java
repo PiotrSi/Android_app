@@ -41,8 +41,16 @@ public class ElementRepository {
 
     void delete(Element element){
         ElementRoomDatabase.databaseWriteExecutor.execute(()->{
-            //dodanie
+            //usunięcie wybranego
             mElementDao.delete(element);
         });
     }
+
+    void update(Element element){
+        ElementRoomDatabase.databaseWriteExecutor.execute(()->{
+            //edytowanie
+            mElementDao.update(element);
+        });
+    }
+
 }
